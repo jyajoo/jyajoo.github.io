@@ -4,23 +4,85 @@ title: Java
 date: 2020-03-26 09:00:00 +0900
 author: YunAh
 ---
-Hello world
-다음은 자바를 사용해 작성한 전통적인 Hello world 프로그램이다.
-
-public class HelloWorldApp {
-  public static void main(String[] args) {
-    System.out.println("Hello World!"); // Hello World를 출력
-  }
+4.15. Java SE 12[편집]
+2019년 3월 19일 공개. 특징 중 하나로 문법적으로 Switch문을 확장한 것이 있다.(출처)
+switch (day) {
+    case MONDAY:
+    case FRIDAY:
+    case SUNDAY:
+        System.out.println(6);
+        break;
+    case TUESDAY:
+        System.out.println(7);
+        break;
+    case THURSDAY:
+    case SATURDAY:
+        System.out.println(8);
+        break;
+    case WEDNESDAY:
+        System.out.println(9);
+        break;
 }
-소스 파일명은 반드시 파일 내의 public class 이름과 동일해야 하며, 파일 확장자는 .java이어야 한다. 예를 들면, 만약 public class 이름이 HelloWorldApp이라면, 파일명은 반드시 HelloWorldApp.java가 되어야 한다. 이 자바 파일이 동작하기 위해서는 자바 컴파일러를 통해서 바이트코드로 컴파일되어 같은 이름의 .class 파일, 즉, HelloWorldApp.class가 생성되어야 한다. 컴파일된 class 파일은 자바 가상 머신을 통해 실행이 가능하다.
-리눅스/유닉스 터미널 (혹은 윈도 cmd) 에서 자바 파일을 컴파일한 후 실행하는 방법 예제)
-컴파일: 자바 컴파일러 사용 (예, javac)
-javac HelloWorldApp.java
-컴파일 후에는 같은 이름의 class 파일인 HelloWorldApp.class가 생성된다.
 
-실행: 자바 가상 머신 사용 (예, java)
-java HelloWorldApp
-실행 시에는 확장자인 .class를 붙이지 않는다.
+예전에는 이렇게 써야 했던 Switch문을 아래와 같은 형식으로도 쓸 수 있게 되었다.
+switch (day) {
+    case MONDAY, FRIDAY, SUNDAY -> System.out.println(6);
+    case TUESDAY                -> System.out.println(7);
+    case THURSDAY, SATURDAY     -> System.out.println(8);
+    case WEDNESDAY              -> System.out.println(9);
+}
+이외에 가비지 컬렉터 개선, 마이크로 벤치마크 툴 추가, 성능 개선의 변경점이 있다.
+4.16. Java SE 13[편집]
+2019년 9월 17일 공개. java 12에서의 스위치 개선을 이어 yield 라는 예약어가 추가되었다.
+var a = switch (day) {
+    case MONDAY, FRIDAY, SUNDAY:
+        yield 6;
+    case TUESDAY:
+        yield 7;
+    case THURSDAY, SATURDAY:
+        yield 8;
+    case WEDNESDAY:
+        yield 9;
+};
+4.17. Java SE 14[편집]
+2020년 3월 18일 공개. 프리뷰 기능으로 instanceof의 패턴 매칭과 record라는 데이터 오브젝트 선언이 추가되었다. 그 외에 인큐베이터라는 패키징 툴(OS에 맞춘 실행파일 생성기능) 추가 등이 있다.
 
-결과
-Hello World!
+instanceof 패턴 매칭
+if (!(obj instanceof String s)) {
+    .. s.contains(..) ..
+} else {
+    .. s.contains(..) ..
+}
+
+
+record 타입 지원
+record Point(int x, int y) { }
+4.18. Java SE 15[편집]
+2020년 9월 15일 공개 (한국 기준 9월 16일)
+EdDSA 암호화 알고리즘 추가
+패턴 매칭 (2차 미리보기, 상단 Java 14 참조)
+스케일링 가능한 낮은 지연의 가비지 컬렉터 추가(ZGC)
+Solaris 및 SPARC 플랫폼 지원 제거
+외부 메모리 접근 API (인큐베이팅)
+레코드 (2차 미리보기, 상단 Java 14 참조)
+클래스 봉인 (미리보기)
+상속 가능한 클래스를 지정할 수 있는 봉인 클래스가 제공된다.
+상속 가능한 대상은 상위 클래스 또는 인터페이스 패키지 내에 속해 있어야 한다.
+package wiki.namu.example.species;
+
+public sealed class Animal
+       Dog,
+	   wiki.namu.example.species.india.Monkey,
+	   wiki.namu.example.species.sabana.Leopard
+{
+    // ...
+}
+다중 텍스트 블록
+이제 자바에서도 여러 줄의 문자열을 손쉽게 작성할 수 있다.
+String html = """
+              <html>
+                  <body>
+                      <p>Hello, world</p>
+                  </body>
+              </html>
+              """;
